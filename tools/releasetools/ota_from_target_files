@@ -522,6 +522,26 @@ else if get_stage("%(bcb_dev)s", "stage") == "3/3" then
     script.FormatPartition("/data")
 
   script.Mount("/data")
+  script.Print("=========================================");    
+  script.Print("           TTTTTTTTTTTTTTTTTT           ");
+  script.Print("            TTTTTTTTTTTTTTT             ");
+  script.Print("                TTTT                    ");
+  script.Print("               TTTT                     ");
+  script.Print("              TTTT                      ");
+  script.Print("             TTTT                       ");
+  script.Print("                NNNNNNN        NNNN     ");
+  script.Print("               NNNN NNNN      NNNN      ");
+  script.Print("              NNNN   NNNN    NNNN       ");
+  script.Print("             NNNN     NNNN  NNNN        ");
+  script.Print("            NNNN       NNNNNNNN         ");
+  script.Print("=========================================");
+  script.Print(" _______________________________________ ");
+  script.Print("     Team Nocturnal's BMFR Project       ");
+  script.Print("     Development@Team-Nocturnal.com      ");
+  script.Print("        Twitter @Team_Nocturnal          ");
+  script.Print("          Team-Nocturnal.com             ");
+  script.Print("      Custom Roms, Themes & Mods         ");
+  script.Print(" _______________________________________ ");
   script.ValidateSignatures("data")
   script.Unmount("/data")
 
