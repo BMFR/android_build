@@ -506,7 +506,6 @@ function brunch()
 function breakfast()
 {
     target=$1
-    local variant=$2
     CM_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
@@ -527,10 +526,7 @@ function breakfast()
             lunch $target
         else
             # This is probably just the CM model name
-            if [ -z "$variant" ]; then
-                variant="userdebug"
-            fi
-            lunch cm_$target-$variant
+            lunch cm_$target-userdebug
         fi
     fi
     return $?
@@ -546,7 +542,7 @@ function lunch()
         answer=$1
     else
         print_lunch_menu
-        echo -n "Which would you like? [aosp_arm-eng] "
+        echo -n "Which would you like? [full-eng] "
         read answer
     fi
 
@@ -554,7 +550,7 @@ function lunch()
 
     if [ -z "$answer" ]
     then
-        selection=aosp_arm-eng
+        selection=full-eng
     elif (echo -n $answer | grep -q -e "^[0-9][0-9]*$")
     then
         if [ $answer -le ${#LUNCH_MENU_CHOICES[@]} ]
@@ -586,7 +582,10 @@ function lunch()
         popd > /dev/null
         check_product $product
     else
+        T=$(gettop)
+        pushd $T > /dev/null
         build/tools/roomservice.py $product true
+        popd > /dev/null
     fi
     if [ $? -ne 0 ]
     then
@@ -1966,10 +1965,10 @@ function repolastsync() {
 function reposync() {
     case `uname -s` in
         Darwin)
-            repo sync -j 4 "$@"
+            repo sync -j 4 "$@" > /dev/null
             ;;
         *)
-            schedtool -B -n 1 -e ionice -n 1 `which repo` sync -j 4 "$@"
+            schedtool -B -n 1 -e ionice -n 1 `which repo` sync -j 4 "$@" > /dev/null
             ;;
     esac
 }
