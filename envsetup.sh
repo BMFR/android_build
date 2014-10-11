@@ -542,7 +542,7 @@ function lunch()
         answer=$1
     else
         print_lunch_menu
-        echo -n "Which would you like? [full-eng] "
+        echo -n "Which would you like? [aosp_arm-eng] "
         read answer
     fi
 
@@ -550,7 +550,7 @@ function lunch()
 
     if [ -z "$answer" ]
     then
-        selection=full-eng
+        selection=aosp_arm-eng
     elif (echo -n $answer | grep -q -e "^[0-9][0-9]*$")
     then
         if [ $answer -le ${#LUNCH_MENU_CHOICES[@]} ]
@@ -582,10 +582,7 @@ function lunch()
         popd > /dev/null
         check_product $product
     else
-        T=$(gettop)
-        pushd $T > /dev/null
         build/tools/roomservice.py $product true
-        popd > /dev/null
     fi
     if [ $? -ne 0 ]
     then
@@ -1965,10 +1962,10 @@ function repolastsync() {
 function reposync() {
     case `uname -s` in
         Darwin)
-            repo sync -j 4 "$@" > /dev/null
+            repo sync -j 4 "$@"
             ;;
         *)
-            schedtool -B -n 1 -e ionice -n 1 `which repo` sync -j 4 "$@" > /dev/null
+            schedtool -B -n 1 -e ionice -n 1 `which repo` sync -j 4 "$@"
             ;;
     esac
 }
