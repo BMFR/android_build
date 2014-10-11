@@ -182,14 +182,14 @@ $(if $(product_property_overrides_locale_region),,$(word 2, $(call default-local
 endef
 
 BUILDINFO_SH := build/tools/buildinfo.sh
-
+TN_PROP := vendor/cm/config/tn.prop
 ifdef TARGET_SYSTEM_PROP
 system_prop_file := $(TARGET_SYSTEM_PROP)
 else
 system_prop_file := $(wildcard $(TARGET_DEVICE_DIR)/system.prop)
 endif
 
-$(INSTALLED_BUILD_PROP_TARGET): $(BUILDINFO_SH) $(INTERNAL_BUILD_ID_MAKEFILE) $(BUILD_SYSTEM)/version_defaults.mk $(system_prop_file)
+$(INSTALLED_BUILD_PROP_TARGET): $(BUILDINFO_SH) $(INTERNAL_BUILD_ID_MAKEFILE) $(BUILD_SYSTEM)/version_defaults.mk $(TN_PROP) $(system_prop_file)
 	@echo Target buildinfo: $@
 	@mkdir -p $(dir $@)
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
@@ -225,6 +225,15 @@ $(INSTALLED_BUILD_PROP_TARGET): $(BUILDINFO_SH) $(INTERNAL_BUILD_ID_MAKEFILE) $(
 			echo Target buildinfo from: "$(file)"; \
 			echo "# from $(file)" >> $@; \
 			echo "#" >> $@; \
+			cat $(file) >> $@; \
+		fi;)
+	$(hide) $(foreach file,$(TN_PROP), \
+		if [ -f "$(file)" ]; then \
+		        echo "#" >> $@; \
+		        echo "#" >> $@; \
+		        echo "# TN TWEEKS" >> $@; \
+		        echo "#" >> $@; \
+		        echo "#" >> $@; \
 			cat $(file) >> $@; \
 		fi;)
 	$(if $(ADDITIONAL_BUILD_PROPERTIES), \
